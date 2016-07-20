@@ -1,6 +1,6 @@
 from random import randint
 import numpy as np
-import pylab as pl
+import pylab as plt
 import sys
 import scipy.stats as stats
 
@@ -60,42 +60,37 @@ mean = avg(X_)
 sd = np.std(X_)
 
 
-fig = pl.figure()
+fig = plt.figure()
 ax = fig.add_subplot(111)
 
 x = np.arange(1.05, 1.25, .001)
-pl.axis([1.10, 1.201, 0, 30])
+plt.axis([1.10, 1.201, 0, 30])
 x = np.arange(1.05, 1.25, .001)
 y = stats.norm.pdf(x,mean,sd)
-pl.plot(x, y, color='red')
+plt.plot(x, y, color='red')
 
 z = [l, r]
 s = [0, 0]
-pl.plot(z, s, "D")
+plt.plot(z, s, "D")
 
 left = (mean - (1.96 * sd))
 right = (mean + (1.96 * sd))
 
 ci_x = np.arange(left, right, .001)
 ci_y = normpdf(ci_x, mean, sd)
-pl.fill_between(ci_x, ci_y, color='#F8ECE0')
+plt.fill_between(ci_x, ci_y, color='#F8ECE0')
 
-pl.text(.02, .95, '$TRIALS = %d$' % TRIALS, transform=ax.transAxes)
-pl.text(.02, .9, '$mean(prices)$ = %f' % np.mean(prices), transform=ax.transAxes)
-pl.text(.02, .85, '$mean(\\overline{X})$ = %f' % np.mean(X_), transform=ax.transAxes)
-pl.text(.02, .80, '$stddev(\\overline{X})$ = %f' % np.std(X_, ddof=1), transform=ax.transAxes)
-pl.text(.02, .75, '95%% CI = $%1.2f \\pm 1.96*%1.3f$' % (np.mean(X_), np.std(X_, ddof=1)),
-        transform=ax.transAxes)
-pl.text(.02, .70, '95%% CI = $%1.2f \\ %1.2f$' % (
-np.mean(X_) - 1.96 * np.std(X_), np.mean(X_) + 1.96 * np.std(X_)), transform=ax.transAxes)
 
-pl.text(1.135, 11.5, "Expected", fontsize=16)
-pl.text(1.135, 10, "95% CI $\\mu \\pm 1.96\\sigma$", fontsize=16)
-pl.title("95% Confidence Intervals: $\\mu \\pm 1.96\\sigma$", fontsize=16)
 
-ax.annotate("Empirical 95% CI", xy=(inside[0], .3), xycoords="data", xytext=(1.13, 4), textcoords='data',
-            arrowprops=dict(arrowstyle="->", connectionstyle="arc3"), fontsize=16)
-
-pl.savefig('bootstrap-' + str(TRIALS) + ('basic' if not fancy else'') + '.pdf', format='pdf')
-
-pl.show()
+plt.text(.02,.95,'$TRIALS = %d$' % TRIALS, transform = ax.transAxes)
+plt.text(.02,.9, '$mean(prices)$ = %f' % np.mean(prices), transform = ax.transAxes)
+plt.text(.02,.85, '$mean(\\overline{X})$ = %f' % np.mean(X_), transform = ax.transAxes)
+plt.text(.02,.80, '$stddev(\\overline{X})$ = %f' %np.std(X_,ddof=1), transform = ax.transAxes)
+plt.text(.02,.75, '95%% CI = ($%1.2f,\\ %1.2f$)' % (left, right), transform = ax.transAxes)
+plt.text(1.135, 11.5, "Expected", fontsize=16)
+plt.text(1.135, 10, "95% CI $\\mu \\pm 1.96\\sigma$", fontsize=16)
+plt.title("95% Confidence Intervals: $\\mu \\pm 1.96\\sigma$", fontsize=16)
+ax.annotate("Empirical 95% CI", xy=(inside[0], .3), xycoords="data",xytext=(1.13,4), textcoords='data'
+            ,arrowprops=dict(arrowstyle="->", connectionstyle="arc3"), fontsize=16)
+plt.savefig('bootstrap-' + str(TRIALS) + ('basic' if not fancy else'') + '.pdf', format='pdf')
+plt.show()
